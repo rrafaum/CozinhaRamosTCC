@@ -7,7 +7,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     descricao: 'Acompanha arroz branco, couve refogada, farofa da casa e laranja.',
     preco: 45.90,
     categoria: 'Pratos',
-    imagem: 'https://receitasgourmetdavovo.com.br/wp-content/uploads/2022/05/feijoada-completa.jpg',
+    imagem: 'https://receitasgourmetdavovo.com.br/wp-content/uploads/2022/05/feijoada-completa.jpg?q=80&w=500',
     disponivel: true
   },
   {
@@ -17,7 +17,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     preco: 38.00,
     categoria: 'Pratos',
     imagem: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?q=80&w=500',
-    disponivel: true
+    disponivel: false
   },
   {
     id: '3',
@@ -26,6 +26,15 @@ export const PRODUTOS_MOCK: Produto[] = [
     preco: 12.00,
     categoria: 'Bebidas',
     imagem: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?q=80&w=500',
+    disponivel: true
+  },
+  {
+    id: '4',
+    nome: 'Palha Italiana',
+    descricao: 'Delicioso doce de brigadeiro gourmet com pedaços crocantes de biscoito.',
+    preco: 5.00,
+    categoria: 'Sobremesas',
+    imagem: 'https://coisasdeterezinha.com.br/wordpress/wp-content/files/coisasdeterezinha.com.br/2024/04/palha-italiana-nao-commons.jpg?q=80&w=500',
     disponivel: true
   }
 ];
