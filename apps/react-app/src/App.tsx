@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import CardProduto from './components/CardProduto';
 import CarrinhoModal from './components/CarrinhoModal';
 import { PRODUTOS_MOCK } from './data/produtos';
@@ -46,7 +47,7 @@ export default function App() {
   const totalItens = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
 
   return (
-    <div className="min-h-screen pb-20 bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-gray-50">
       <Header quantidadeCarrinho={totalItens} onCarrinhoAberto={() => setIsCarrinhoAberto(true)} />
       
       <section className="bg-ramos-verde text-ramos-bege py-10 px-4 text-center shadow-inner">
@@ -88,6 +89,8 @@ export default function App() {
           ))}
         </div>
       </main>
+
+      <Footer />
 
       {isCarrinhoAberto && (
         <CarrinhoModal 

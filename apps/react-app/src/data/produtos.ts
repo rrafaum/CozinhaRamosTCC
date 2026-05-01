@@ -36,5 +36,23 @@ export const PRODUTOS_MOCK: Produto[] = [
     categoria: 'Sobremesas',
     imagem: 'https://coisasdeterezinha.com.br/wordpress/wp-content/files/coisasdeterezinha.com.br/2024/04/palha-italiana-nao-commons.jpg?q=80&w=500',
     disponivel: true
+  },
+  {
+    id: '5',
+    nome: 'Coca Cola KS',
+    descricao: 'Um refrigerante saboroso para qualquer momento.',
+    preco: 7.00,
+    categoria: 'Bebidas',
+    imagem: 'https://www.thedailymeal.com/img/gallery/the-inspiration-behind-the-shape-of-coca-colas-iconic-original-bottle/l-intro-1672949640.jpg?q=80&w=500',
+    disponivel: true
+  },
+  {
+    id: '6',
+    nome: 'Mousse de Maracujá',
+    descricao: 'Feito da fruta com folhas de hortelã para dar frescor.',
+    preco: 6.00,
+    categoria: 'Sobremesas',
+    imagem: 'https://www.sabornamesa.com.br/media/k2/items/cache/99552797e1630f1fc706d3714ba75745_XL.jpg?q=80&w=500',
+    disponivel: false
   }
 ];
