@@ -1,0 +1,49 @@
+@reference "../../index.css";
+
+.card-container {
+    @apply relative bg-white rounded-2xl shadow-sm overflow-hidden border border-ramos-bege-escuro/30 hover:shadow-md transition-shadow;
+}
+
+.card-indisponivel {
+    @apply opacity-60;
+}
+
+.card-badge {
+    @apply absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-ramos-verde text-[10px] font-bold px-2 py-1 rounded-lg shadow-sm uppercase tracking-wider border border-ramos-bege-escuro/20;
+}
+
+.card-image {
+    @apply w-full h-48 object-cover;
+}
+
+.card-body {
+    @apply p-4;
+}
+
+.card-header {
+    @apply flex justify-between items-start mb-2;
+}
+
+.card-title {
+    @apply font-bold text-lg text-ramos-verde leading-tight;
+}
+
+.card-price {
+    @apply font-bold text-ramos-marrom whitespace-nowrap ml-2;
+}
+
+.card-description {
+    @apply text-gray-600 text-sm mb-4 line-clamp-2;
+}
+
+.card-button {
+    @apply w-full py-2 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all;
+}
+
+.card-button-active {
+    @apply bg-ramos-verde text-ramos-bege hover:bg-ramos-verde/90 active:scale-95;
+}
+
+.card-button-disabled {
+    @apply bg-gray-200 text-gray-500 cursor-not-allowed;
+}
