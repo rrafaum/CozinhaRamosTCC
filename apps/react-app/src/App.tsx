@@ -1,31 +1,58 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import CardProduto from './components/CardProduto/CardProduto';
 import CarrinhoModal from './components/CarrinhoModal/CarrinhoModal';
 import { PRODUTOS_MOCK } from './data/produtos';
+import { CONFIG } from '@shared/constants/config';
 import type { ItemCarrinho, Produto } from '@shared/types/Produto';
 import './App.css';
 
 export default function App() {
   const [carrinho, setCarrinho] = useState<ItemCarrinho[]>(() => {
-    const salvo = localStorage.getItem('@CozinhaRamos:carrinho');
-    return salvo ? JSON.parse(salvo) : [];
+    try {
+      const dadosSalvos = localStorage.getItem(CONFIG.STORAGE.CART_KEY);
+      return dadosSalvos ? JSON.parse(dadosSalvos) : [];
+    } catch (error) {
+      console.error("Erro ao carregar localStorage:", error);
+      return [];
+    }
   });
-  const [isCarrinhoAberto, setIsCarrinhoAberto] = useState(false);
-  const limparCarrinho = () => {setCarrinho([]); setIsCarrinhoAberto(false);};
 
-  useEffect(() => {
-    localStorage.setItem('@CozinhaRamos:carrinho', JSON.stringify(carrinho));
+  const [isCarrinhoAberto, setIsCarrinhoAberto] = useState(false);
+  const [isCarregando, setIsCarregando] = useState(true);
+  const [categoriaAtiva, setCategoriaAtiva] = useState('Todos');
+
+  const categorias = useMemo(() => {
+    return ['Todos', ...new Set(PRODUTOS_MOCK.map(p => p.categoria))];
+  }, []);
+
+  const totalItens = useMemo(() => {
+    return carrinho.reduce((acc, item) => acc + item.quantidade, 0);
   }, [carrinho]);
 
-  const [categoriaAtiva, setCategoriaAtiva] = useState<'Todos' | 'Pratos' | 'Bebidas' | 'Sobremesas'>('Todos');
-  const categorias = ['Todos', 'Pratos', 'Bebidas', 'Sobremesas'] as const;
+  const produtosFiltrados = useMemo(() => {
+    return categoriaAtiva === 'Todos' 
+      ? PRODUTOS_MOCK 
+      : PRODUTOS_MOCK.filter(p => p.categoria === categoriaAtiva);
+  }, [categoriaAtiva]);
 
-  const produtosFiltrados = categoriaAtiva === 'Todos' 
-    ? PRODUTOS_MOCK 
-    : PRODUTOS_MOCK.filter(p => p.categoria === categoriaAtiva);
-  
+  useEffect(() => {
+    localStorage.setItem(CONFIG.STORAGE.CART_KEY, JSON.stringify(carrinho));
+  }, [carrinho]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsCarregando(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const limparCarrinho = () => {
+    setCarrinho([]);
+    setIsCarrinhoAberto(false);
+  };
+
   const adicionarAoCarrinho = (produto: Produto) => {
     setCarrinho(prev => {
       const itemExiste = prev.find(item => item.id === produto.id);
@@ -36,7 +63,6 @@ export default function App() {
       }
       return [...prev, { ...produto, quantidade: 1 }];
     });
-    setIsCarrinhoAberto(true);
   };
 
   const removerDoCarrinho = (id: string) => {
@@ -44,25 +70,18 @@ export default function App() {
   };
 
   const atualizarQuantidade = (id: string, delta: number) => {
-    setCarrinho(prev => prev.map(item => {
-      if (item.id === id) {
-        const novaQtd = item.quantidade + delta;
-        return { ...item, quantidade: novaQtd > 0 ? novaQtd : 1 };
-      }
-      return item;
-    }));
+    setCarrinho(prev => {
+      return prev
+        .map(item => {
+          if (item.id === id) {
+            const novaQtd = item.quantidade + delta;
+            return novaQtd > 0 ? { ...item, quantidade: novaQtd } : null;
+          }
+          return item;
+        })
+        .filter((item): item is ItemCarrinho => item !== null);
+    });
   };
-
-  const totalItens = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
-
-  const [isCarregando, setIsCarregando] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsCarregando(false);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <div className="app-wrapper">
@@ -72,12 +91,11 @@ export default function App() {
       />
       
       <section className="hero-banner">
-        <h2 className="hero-title">Cozinha Ramos</h2>
-        <p className="hero-subtitle">Tradição e sabor que chegam até você.</p>
+        <h2 className="hero-title">{CONFIG.APP.NAME}</h2>
+        <p className="hero-subtitle">{CONFIG.APP.SLOGAN}</p>
       </section>
 
       <main className="main-content">
-        {/* Filtros de Categoria */}
         <div className="filter-container">
           {categorias.map(cat => (
             <button
@@ -90,13 +108,11 @@ export default function App() {
           ))}
         </div>
 
-        {/* Título da Seção */}
         <div className="section-header">
           <h3 className="section-title">Nosso Cardápio</h3>
           <span className="delivery-badge">ENTREGA</span>
         </div>
 
-        {/* Grid de Produtos */}
         <div className="product-grid">
           {isCarregando ? (
             Array.from({ length: 6 }).map((_, i) => (

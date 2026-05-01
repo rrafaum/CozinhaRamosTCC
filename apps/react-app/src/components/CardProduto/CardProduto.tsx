@@ -1,4 +1,4 @@
-import { Plus, Info } from 'lucide-react';
+import { Icons } from '../Icons';
 import type { Produto } from '@shared/types/Produto';
 import './CardProduto.css';
 
@@ -10,6 +10,11 @@ interface CardProdutoProps {
 export default function CardProduto({ produto, onAdd }: CardProdutoProps) {
   const { disponivel, categoria, imagem, nome, preco, descricao } = produto;
 
+  const precoFormatado = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(preco);
+
   return (
     <div className={`card-container ${!disponivel ? 'card-indisponivel' : ''}`}>
       
@@ -19,15 +24,16 @@ export default function CardProduto({ produto, onAdd }: CardProdutoProps) {
 
       <img 
         src={imagem} 
-        alt={nome} 
-        className="card-image" 
+        alt={`Imagem do produto ${nome}`} 
+        className="card-image"
+        loading="lazy"
       />
 
       <div className="card-body">
         <div className="card-header">
           <h3 className="card-title">{nome}</h3>
           <span className="card-price">
-            R$ {preco.toFixed(2).replace('.', ',')}
+            {precoFormatado}
           </span>
         </div>
         
@@ -40,12 +46,12 @@ export default function CardProduto({ produto, onAdd }: CardProdutoProps) {
         >
           {disponivel ? (
             <>
-              <Plus size={20} />
+              <Icons.Plus size={20} />
               Adicionar
             </>
           ) : (
             <>
-              <Info size={18} />
+              <Icons.Info size={18} />
               Indisponível
             </>
           )}

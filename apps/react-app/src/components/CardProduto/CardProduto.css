@@ -25,7 +25,7 @@
 }
 
 .card-title {
-    @apply font-bold text-lg text-ramos-verde leading-tight;
+    @apply font-semibold text-lg text-ramos-verde leading-tight;
 }
 
 .card-price {

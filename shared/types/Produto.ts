@@ -3,7 +3,7 @@ export interface Produto {
   nome: string;
   descricao: string;
   preco: number;
-  categoria: 'Pratos' | 'Bebidas' | 'Sobremesas';
+  categoria: string;
   imagem: string;
   disponivel: boolean;
 }
