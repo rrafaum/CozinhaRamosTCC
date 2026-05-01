@@ -61,3 +61,18 @@
 .product-grid {
     @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
 }
+
+/* Skeleton */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .5; }
+}
+
+.skeleton {
+  @apply bg-gray-200 rounded-2xl animate-pulse;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.skeleton-card {
+  @apply h-80 w-full;
+}

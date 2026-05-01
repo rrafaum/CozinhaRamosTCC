@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import CardProduto from './components/CardProduto/CardProduto';
@@ -8,10 +8,18 @@ import type { ItemCarrinho, Produto } from '@shared/types/Produto';
 import './App.css';
 
 export default function App() {
-  const [carrinho, setCarrinho] = useState<ItemCarrinho[]>([]);
+  const [carrinho, setCarrinho] = useState<ItemCarrinho[]>(() => {
+    const salvo = localStorage.getItem('@CozinhaRamos:carrinho');
+    return salvo ? JSON.parse(salvo) : [];
+  });
   const [isCarrinhoAberto, setIsCarrinhoAberto] = useState(false);
-  const [categoriaAtiva, setCategoriaAtiva] = useState<'Todos' | 'Pratos' | 'Bebidas' | 'Sobremesas'>('Todos');
+  const limparCarrinho = () => {setCarrinho([]); setIsCarrinhoAberto(false);};
 
+  useEffect(() => {
+    localStorage.setItem('@CozinhaRamos:carrinho', JSON.stringify(carrinho));
+  }, [carrinho]);
+
+  const [categoriaAtiva, setCategoriaAtiva] = useState<'Todos' | 'Pratos' | 'Bebidas' | 'Sobremesas'>('Todos');
   const categorias = ['Todos', 'Pratos', 'Bebidas', 'Sobremesas'] as const;
 
   const produtosFiltrados = categoriaAtiva === 'Todos' 
@@ -47,6 +55,15 @@ export default function App() {
 
   const totalItens = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
 
+  const [isCarregando, setIsCarregando] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsCarregando(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="app-wrapper">
       <Header 
@@ -81,7 +98,11 @@ export default function App() {
 
         {/* Grid de Produtos */}
         <div className="product-grid">
-          {produtosFiltrados.map(produto => (
+          {isCarregando ? (
+            Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="skeleton skeleton-card" />
+            ))
+          ) : produtosFiltrados.map(produto => (
             <CardProduto 
               key={produto.id} 
               produto={produto} 
@@ -96,9 +117,10 @@ export default function App() {
       {isCarrinhoAberto && (
         <CarrinhoModal 
           itens={carrinho} 
-          onClose={() => setIsCarrinhoAberto(false)}
-          onRemove={removerDoCarrinho}
-          onUpdateQty={atualizarQuantidade}
+          onFechar={() => setIsCarrinhoAberto(false)}
+          onRemover={removerDoCarrinho}
+          onAtualizarQtd={atualizarQuantidade}
+          onFinalizar={limparCarrinho}
         />
       )}
     </div>

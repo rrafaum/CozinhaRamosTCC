@@ -4,12 +4,13 @@ import './CarrinhoModal.css';
 
 interface CarrinhoModalProps {
   itens: ItemCarrinho[];
-  onClose: () => void;
-  onRemove: (id: string) => void;
-  onUpdateQty: (id: string, delta: number) => void;
+  onFechar: () => void;
+  onRemover: (id: string) => void;
+  onAtualizarQtd: (id: string, delta: number) => void;
+  onFinalizar: () => void;
 }
 
-export default function CarrinhoModal({ itens, onClose, onRemove, onUpdateQty }: CarrinhoModalProps) {
+export default function CarrinhoModal({ itens, onFechar, onRemover, onAtualizarQtd, onFinalizar }: CarrinhoModalProps) {
   const total = itens.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
 
   const finalizarPedido = () => {
@@ -24,6 +25,8 @@ export default function CarrinhoModal({ itens, onClose, onRemove, onUpdateQty }:
     
     const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
     window.open(url, '_blank');
+
+    onFinalizar();
   };
 
   return (
@@ -31,7 +34,7 @@ export default function CarrinhoModal({ itens, onClose, onRemove, onUpdateQty }:
       <div className="modal-content animate-in slide-in-from-right duration-300">
         <div className="modal-header">
           <h2 className="modal-title">Seu Pedido</h2>
-          <button onClick={onClose} className="btn-close">
+          <button onClick={onFechar} className="btn-close">
             <X size={24} />
           </button>
         </div>
@@ -49,17 +52,17 @@ export default function CarrinhoModal({ itens, onClose, onRemove, onUpdateQty }:
                   
                   <div className="qty-controls">
                     <button 
-                      onClick={() => onUpdateQty(item.id, -1)}
+                      onClick={() => onAtualizarQtd(item.id, -1)}
                       className="btn-qty"
                     >-</button>
                     <span className="qty-display">{item.quantidade}</span>
                     <button 
-                      onClick={() => onUpdateQty(item.id, 1)}
+                      onClick={() => onAtualizarQtd(item.id, 1)}
                       className="btn-qty"
                     >+</button>
                   </div>
                 </div>
-                <button onClick={() => onRemove(item.id)} className="btn-remove">
+                <button onClick={() => onRemover(item.id)} className="btn-remove">
                   <Trash2 size={18} />
                 </button>
               </div>
