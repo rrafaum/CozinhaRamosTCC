@@ -3,9 +3,16 @@
     "target": "ES2020",
     "module": "CommonJS",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
+    "rootDir": "..", 
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@shared/*": ["../shared/*"]
+    }
+  },
+  "include": ["src/**/*", "../shared/**/*"]
 }

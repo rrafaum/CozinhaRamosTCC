@@ -1,12 +1,5 @@
 import type { Produto } from '@shared/types/Produto';
 
-import feijoadaImg from '../assets/images/feijoada.jpg';
-import frangoImg from '../assets/images/frango-com-quiabo.jpg';
-import sucoImg from '../assets/images/suco-de-laranja.jpg';
-import palhaImg from '../assets/images/palha-italiana.jpg';
-import cocaImg from '../assets/images/coca-cola-ks.jpg';
-import mousseImg from '../assets/images/mousse-de-maracuja.jpg';
-
 export const PRODUTOS_MOCK: Produto[] = [
   {
     id: '1',
@@ -14,7 +7,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     descricao: 'Acompanha arroz branco, couve refogada, farofa da casa e laranja.',
     preco: 45.90,
     categoria: 'Pratos',
-    imagem: feijoadaImg,
+    imagem: 'http://localhost:3001/images/feijoada.jpg',
     disponivel: true
   },
   {
@@ -23,7 +16,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     descricao: 'Tradicional frango caipira com quiabo fresquinho e polenta cremosa.',
     preco: 38.00,
     categoria: 'Pratos',
-    imagem: frangoImg,
+    imagem: 'http://localhost:3001/images/frango-com-quiabo.jpg',
     disponivel: false
   },
   {
@@ -32,7 +25,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     descricao: 'Suco natural da fruta, gelado e sem açúcar adicionado.',
     preco: 12.00,
     categoria: 'Bebidas',
-    imagem: sucoImg,
+    imagem: 'http://localhost:3001/images/suco-de-laranja.jpg',
     disponivel: true
   },
   {
@@ -41,7 +34,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     descricao: 'Delicioso doce de brigadeiro gourmet com pedaços crocantes de biscoito.',
     preco: 5.00,
     categoria: 'Sobremesas',
-    imagem: palhaImg,
+    imagem: 'http://localhost:3001/images/palha-italiana.jpg',
     disponivel: true
   },
   {
@@ -50,7 +43,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     descricao: 'Um refrigerante saboroso para qualquer momento.',
     preco: 7.00,
     categoria: 'Bebidas',
-    imagem: cocaImg,
+    imagem: 'http://localhost:3001/images/coca-cola-ks.jpg',
     disponivel: true
   },
   {
@@ -59,7 +52,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     descricao: 'Feito da fruta com folhas de hortelã para dar frescor.',
     preco: 6.00,
     categoria: 'Sobremesas',
-    imagem: mousseImg,
+    imagem: 'http://localhost:3001/images/mousse-de-maracuja.jpg',
     disponivel: false
   }
 ];
