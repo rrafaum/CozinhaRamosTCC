@@ -1,4 +1,5 @@
 import type { Produto } from '@shared/types/Produto';
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const PRODUTOS_MOCK: Produto[] = [
   {
@@ -7,7 +8,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     descricao: 'Acompanha arroz branco, couve refogada, farofa da casa e laranja.',
     preco: 45.90,
     categoria: 'Pratos',
-    imagem: 'http://localhost:3001/images/feijoada.jpg',
+    imagem: `${API_URL}/images/feijoada.jpg`,
     disponivel: true
   },
   {
@@ -16,7 +17,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     descricao: 'Tradicional frango caipira com quiabo fresquinho e polenta cremosa.',
     preco: 38.00,
     categoria: 'Pratos',
-    imagem: 'http://localhost:3001/images/frango-com-quiabo.jpg',
+    imagem: `${API_URL}/images/frango-com-quiabo.jpg`,
     disponivel: false
   },
   {
@@ -25,7 +26,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     descricao: 'Suco natural da fruta, gelado e sem açúcar adicionado.',
     preco: 12.00,
     categoria: 'Bebidas',
-    imagem: 'http://localhost:3001/images/suco-de-laranja.jpg',
+    imagem: `${API_URL}/images/suco-de-laranja.jpg`,
     disponivel: true
   },
   {
@@ -34,7 +35,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     descricao: 'Delicioso doce de brigadeiro gourmet com pedaços crocantes de biscoito.',
     preco: 5.00,
     categoria: 'Sobremesas',
-    imagem: 'http://localhost:3001/images/palha-italiana.jpg',
+    imagem: `${API_URL}/images/palha-italiana.jpg`,
     disponivel: true
   },
   {
@@ -43,7 +44,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     descricao: 'Um refrigerante saboroso para qualquer momento.',
     preco: 7.00,
     categoria: 'Bebidas',
-    imagem: 'http://localhost:3001/images/coca-cola-ks.jpg',
+    imagem: `${API_URL}/images/coca-cola-ks.jpg`,
     disponivel: true
   },
   {
@@ -52,7 +53,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     descricao: 'Feito da fruta com folhas de hortelã para dar frescor.',
     preco: 6.00,
     categoria: 'Sobremesas',
-    imagem: 'http://localhost:3001/images/mousse-de-maracuja.jpg',
+    imagem: `${API_URL}/images/mousse-de-maracuja.jpg`,
     disponivel: false
   }
 ];

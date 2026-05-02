@@ -1,13 +1,24 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import { Produto } from '@shared/types/Produto';
 
 const app = express();
+const PORT = process.env.PORT || 3001;
+const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173'
+}));
+
 app.use(express.json());
-app.use('/images', express.static(path.join(process.cwd(), 'public/images')));
+
+app.use('/images', express.static(path.join(__dirname, '../public/images')));
+
+app.get('/', (req, res) => {
+  res.send(`🚀 API Cozinha Ramos rodando! Acesse <a href="/produtos">/produtos</a> para ver os dados.`);
+});
 
 const produtos: Produto[] = [
   {
@@ -16,7 +27,7 @@ const produtos: Produto[] = [
     descricao: 'Acompanha arroz branco, couve refogada, farofa da casa e laranja.',
     preco: 45.90,
     categoria: 'Pratos',
-    imagem: 'http://localhost:3001/images/feijoada.jpg',
+    imagem: `${BASE_URL}/images/feijoada.jpg`,
     disponivel: true
   },
   {
@@ -25,8 +36,8 @@ const produtos: Produto[] = [
     descricao: 'Tradicional frango caipira com quiabo fresquinho e polenta cremosa.',
     preco: 38.00,
     categoria: 'Pratos',
-    imagem: 'http://localhost:3001/images/frango-com-quiabo.jpg',
-    disponivel: false
+    imagem: `${BASE_URL}/images/frango-com-quiabo.jpg`,
+    disponivel: true
   },
   {
     id: '3',
@@ -34,7 +45,7 @@ const produtos: Produto[] = [
     descricao: 'Suco natural da fruta, gelado e sem açúcar adicionado.',
     preco: 12.00,
     categoria: 'Bebidas',
-    imagem: 'http://localhost:3001/images/suco-de-laranja.jpg',
+    imagem: `${BASE_URL}/images/suco-de-laranja.jpg`,
     disponivel: true
   },
   {
@@ -43,7 +54,7 @@ const produtos: Produto[] = [
     descricao: 'Delicioso doce de brigadeiro gourmet com pedaços crocantes de biscoito.',
     preco: 5.00,
     categoria: 'Sobremesas',
-    imagem: 'http://localhost:3001/images/palha-italiana.jpg',
+    imagem: `${BASE_URL}/images/palha-italiana.jpg`,
     disponivel: true
   },
   {
@@ -52,7 +63,7 @@ const produtos: Produto[] = [
     descricao: 'Um refrigerante saboroso para qualquer momento.',
     preco: 7.00,
     categoria: 'Bebidas',
-    imagem: 'http://localhost:3001/images/coca-cola-ks.jpg',
+    imagem: `${BASE_URL}/images/coca-cola-ks.jpg`,
     disponivel: true
   },
   {
@@ -61,8 +72,8 @@ const produtos: Produto[] = [
     descricao: 'Feito da fruta com folhas de hortelã para dar frescor.',
     preco: 6.00,
     categoria: 'Sobremesas',
-    imagem: 'http://localhost:3001/images/mousse-de-maracuja.jpg',
-    disponivel: false
+    imagem: `${BASE_URL}/images/mousse-de-maracuja.jpg`,
+    disponivel: true
   }
 ];
 
@@ -72,11 +83,21 @@ app.get('/produtos', (req, res) => {
 
 app.post('/pedidos', (req, res) => {
   const pedido = req.body;
-  console.log('Pedido recebido:', pedido);
-  res.status(201).json({ message: 'Pedido registrado com sucesso!', pedido });
+
+  if (!pedido || !pedido.itens || pedido.itens.length === 0) {
+    return res.status(400).json({ 
+      error: 'Pedido inválido', 
+      message: 'O carrinho não pode estar vazio para finalizar um pedido.' 
+    });
+  }
+
+  console.log('Pedido recebido via API:', pedido);
+  res.status(201).json({ 
+    message: 'Pedido registrado com sucesso!', 
+    status: 'success' 
+  });
 });
 
-const PORT = 3001;
 app.listen(PORT, () => {
-  console.log(`🚀 Backend Cozinha Ramos rodando em http://localhost:${PORT}`);
+  console.log(`🚀 Backend Cozinha Ramos rodando em ${BASE_URL}`);
 });

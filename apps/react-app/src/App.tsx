@@ -10,6 +10,8 @@ import { CONFIG } from '@shared/constants/config';
 import { PRODUTOS_MOCK } from './data/produtos';
 import type { ItemCarrinho, Produto } from '@shared/types/Produto';
 
+import { Toaster, toast } from 'react-hot-toast';
+
 import './App.css';
 
 export default function App() {
@@ -32,7 +34,7 @@ export default function App() {
     const buscarProdutos = async () => {
       try {
         setIsCarregando(true);
-        const response = await axios.get<Produto[]>('http://localhost:3001/produtos');
+        const response = await axios.get<Produto[]>(`${import.meta.env.VITE_API_URL}/produtos`);
         
         if (response.data && response.data.length > 0) {
           setProdutos(response.data);
@@ -78,6 +80,15 @@ export default function App() {
       }
       return [...prev, { ...produto, quantidade: 1 }];
     });
+
+    toast.success(`${produto.nome} adicionado ao carrinho!`, {
+      position: 'bottom-center',
+      style: {
+        borderRadius: '8px',
+        background: '#435B17',
+        color: '#fff',
+      },
+    });
   };
 
   const removerDoCarrinho = (id: string) => {
@@ -109,6 +120,8 @@ export default function App() {
         quantidadeCarrinho={totalItens} 
         onCarrinhoAberto={() => setIsCarrinhoAberto(true)} 
       />
+
+      <Toaster />
       
       <section className="hero-banner">
         <h2 className="hero-title">{CONFIG.APP.NAME}</h2>
