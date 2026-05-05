@@ -10,9 +10,12 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
+    "types": ["node"],
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
     "paths": {
       "@shared/*": ["../shared/*"]
     }
   },
-  "include": ["src/**/*", "../shared/**/*"]
+  "include": ["src/**/*", "../shared/**/*", "../database/seed.ts"] 
 }
