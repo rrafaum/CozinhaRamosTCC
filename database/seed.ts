@@ -9,12 +9,9 @@ async function runSeed() {
   try {
     console.log('🏁 Iniciando conexão direta com o MongoDB...');
     
-    // Criamos uma conexão específica para este script
     const connection = await mongoose.createConnection('mongodb://127.0.0.1:27017/cozinharamos').asPromise();
     console.log('🍃 MongoDB Conectado!');
 
-    // Registramos o modelo DIRETAMENTE nesta conexão
-    // Certifique-se de que o Schema exportado no seu arquivo Produto.ts seja acessível
     const ProdutoModel = connection.model('Produto', Produto.schema);
 
     console.log('🧹 Limpando dados antigos...');
@@ -35,7 +32,6 @@ async function runSeed() {
     
     console.log('✅ Banco populado com sucesso!');
     
-    // Fecha a conexão antes de sair
     await connection.close();
     process.exit(0);
   } catch (err: any) {
