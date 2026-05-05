@@ -7,4 +7,4 @@ const usuarioSchema = new Schema({
   criadoEm: { type: Date, default: Date.now }
 });
 
-export const Usuario = model('Usuario', usuarioSchema);
+export const Usuario = model('Usuario', usuarioSchema, 'usuarios');
