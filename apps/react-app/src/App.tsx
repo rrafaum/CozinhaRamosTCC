@@ -7,7 +7,6 @@ import CardProduto from './components/CardProduto/CardProduto';
 import CarrinhoModal from './components/CarrinhoModal/CarrinhoModal';
 
 import { CONFIG } from '@shared/constants/config';
-import { PRODUTOS_MOCK } from './data/produtos';
 import type { ItemCarrinho, Produto } from '@shared/types/Produto';
 
 import { Toaster, toast } from 'react-hot-toast';
@@ -38,12 +37,11 @@ export default function App() {
         
         if (response.data && response.data.length > 0) {
           setProdutos(response.data);
-        } else {
-          setProdutos(PRODUTOS_MOCK);
         }
       } catch (err) {
-        console.error("API Offline. Usando dados locais (MOCK):", err);
-        setProdutos(PRODUTOS_MOCK);
+        console.error("Erro ao carregar produtos do banco de dados:", err);
+        toast.error("Não foi possível carregar o cardápio.");
+        setProdutos([]);
       } finally {
         setIsCarregando(false);
       }
