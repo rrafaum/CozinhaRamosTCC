@@ -11,6 +11,8 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "types": ["node"],
+    "moduleResolution": "node",
+    "allowJs": true,
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "paths": {
