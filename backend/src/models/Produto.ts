@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const productSchema = new Schema({
+const produtoSchema = new Schema({
   nome: { type: String, required: true },
   descricao: { type: String, required: true },
   preco: { type: Number, required: true },
@@ -9,4 +9,4 @@ const productSchema = new Schema({
   disponivel: { type: Boolean, default: true }
 });
 
-export const Produto = model('Produto', productSchema);
+export const Produto = model('Produto', produtoSchema, 'produtos');
