@@ -1,0 +1,78 @@
+@reference "./index.css";
+
+.app-wrapper {
+    @apply min-h-screen flex flex-col bg-gray-50;
+}
+
+/* Banner Hero */
+.hero-banner {
+    @apply bg-ramos-verde text-ramos-bege py-10 px-4 text-center shadow-inner;
+}
+
+.hero-title {
+    @apply text-3xl font-bold mb-2;
+}
+
+.hero-subtitle {
+    @apply text-ramos-bege-escuro italic;
+}
+
+/* Container Principal */
+.main-content {
+    @apply container mx-auto p-4 max-w-5xl;
+}
+
+/* Filtros */
+.filter-container {
+    @apply flex gap-2 overflow-x-auto pb-4 mb-6;
+    scrollbar-width: none;
+}
+
+.filter-container::-webkit-scrollbar {
+    display: none;
+}
+
+.btn-filter {
+    @apply px-6 py-2 rounded-full font-bold text-sm transition-all whitespace-nowrap border;
+}
+
+.btn-filter-active {
+    @apply bg-ramos-marrom text-white border-ramos-marrom shadow-md;
+}
+
+.btn-filter-inactive {
+    @apply bg-white text-ramos-verde border-ramos-bege-escuro/30 hover:bg-ramos-bege;
+}
+
+/* Seção de Título */
+.section-header {
+    @apply flex items-center justify-between mb-8 border-b border-ramos-bege-escuro/30 pb-2;
+}
+
+.section-title {
+    @apply text-2xl font-bold text-ramos-verde;
+}
+
+.delivery-badge {
+    @apply bg-ramos-marrom text-white px-3 py-1 rounded-full text-xs font-bold;
+}
+
+/* Grid */
+.product-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
+}
+
+/* Skeleton */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .5; }
+}
+
+.skeleton {
+  @apply bg-gray-200 rounded-2xl animate-pulse;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.skeleton-card {
+  @apply h-80 w-full;
+}
