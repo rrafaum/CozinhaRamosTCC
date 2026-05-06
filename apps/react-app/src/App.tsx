@@ -23,9 +23,10 @@ interface UsuarioLogado {
 
 export default function App() {
   const [usuario, setUsuario] = useState<UsuarioLogado | null>(() => {
-  const salvo = localStorage.getItem('@CozinhaRamos:usuario');
+    const salvo = localStorage.getItem('@CozinhaRamos:usuario');
     return salvo ? JSON.parse(salvo) : null;
   });
+  
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [isCarrinhoAberto, setIsCarrinhoAberto] = useState(false);
   const [isCarregando, setIsCarregando] = useState(true);
@@ -47,9 +48,11 @@ export default function App() {
     const buscarProdutos = async () => {
       try {
         setIsCarregando(true);
-        const response = await axios.get<Produto[]>(`${import.meta.env.VITE_API_URL}/produtos`);
+        const apiUrl = import.meta.env.VITE_API_URL;
+        // Fazemos o GET. O 404 deve sumir agora que registramos no server.ts
+        const response = await axios.get<Produto[]>(`${apiUrl}/produtos`);
         
-        if (response.data && response.data.length > 0) {
+        if (response.data) {
           setProdutos(response.data);
         }
       } catch (err) {
@@ -202,6 +205,7 @@ export default function App() {
       {isCarrinhoAberto && (
         <CarrinhoModal 
           itens={carrinho} 
+          usuario={usuario}
           onFechar={() => setIsCarrinhoAberto(false)}
           onRemover={removerDoCarrinho}
           onAtualizarQtd={atualizarQuantidade}
