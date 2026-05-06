@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Icons } from '../Icons';
 import type { ItemCarrinho } from '@shared/types/Produto';
 import { CONFIG } from '@shared/constants/config';
@@ -5,6 +6,7 @@ import './CarrinhoModal.css';
 
 interface CarrinhoModalProps {
   itens: ItemCarrinho[];
+  usuario: { id: string; nome: string } | null;
   onFechar: () => void;
   onRemover: (id: string) => void;
   onAtualizarQtd: (id: string, delta: number) => void;
@@ -13,6 +15,7 @@ interface CarrinhoModalProps {
 
 export default function CarrinhoModal({ 
   itens, 
+  usuario,
   onFechar, 
   onRemover, 
   onAtualizarQtd, 
@@ -26,21 +29,46 @@ export default function CarrinhoModal({
 
   const total = itens.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
 
-  const finalizarPedido = () => {
-    let mensagem = `*Novo Pedido - ${CONFIG.APP.NAME}*\n\n`;
-    
-    itens.forEach(item => {
-      const subtotal = moneyFormatter.format(item.preco * item.quantidade);
-      mensagem += `${item.quantidade}x ${item.nome} - ${subtotal}\n`;
-    });
+  const finalizarPedido = async () => {
+    if (!usuario) {
+      alert("Você precisa estar logado para finalizar o pedido.");
+      return;
+    }
 
-    mensagem += `\n*Total: ${moneyFormatter.format(total)}*`;
-    
-    const url = `https://wa.me/${CONFIG.CONTACT.WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
-    
-    window.open(url, '_blank', 'noopener,noreferrer');
+    try {
+      const payload = {
+        usuarioId: usuario.id,
+        itens: itens.map(i => ({ 
+          produtoId: i.id, 
+          nome: i.nome, 
+          quantidade: i.quantidade, 
+          preco: i.preco 
+        })),
+        total: total
+      };
+      
+      await axios.post(`${CONFIG.API_URL}/pedidos`, payload);
 
-    onFinalizar();
+      let mensagem = `*Novo Pedido - ${CONFIG.APP.NAME}*\n`;
+      mensagem += `Cliente: ${usuario.nome}\n\n`;
+      
+      itens.forEach(item => {
+        const subtotal = moneyFormatter.format(item.preco * item.quantidade);
+        mensagem += `${item.quantidade}x ${item.nome} - ${subtotal}\n`;
+      });
+
+      mensagem += `\n*Total: ${moneyFormatter.format(total)}*`;
+      
+      const url = `https://wa.me/${CONFIG.CONTACT.WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
+      
+      window.open(url, '_blank', 'noopener,noreferrer');
+
+      onFinalizar();
+      
+    } catch (err) {
+      console.error("Erro ao salvar pedido:", err);
+      alert("Houve um erro ao registrar seu pedido no sistema. Mas você ainda pode tentar pelo WhatsApp.");
+    }
   };
 
   const handleAtualizarQtd = (item: ItemCarrinho, delta: number) => {
@@ -92,20 +120,17 @@ export default function CarrinhoModal({
                     <button 
                       onClick={() => handleAtualizarQtd(item, -1)}
                       className="btn-qty"
-                      aria-label="Diminuir quantidade"
                     >-</button>
                     <span className="qty-display">{item.quantidade}</span>
                     <button 
                       onClick={() => handleAtualizarQtd(item, 1)}
                       className="btn-qty"
-                      aria-label="Aumentar quantidade"
                     >+</button>
                   </div>
                 </div>
                 <button 
                   onClick={() => onRemover(item.id)} 
                   className="btn-remove"
-                  aria-label="Remover item"
                 >
                   <Icons.Trash size={18} />
                 </button>

@@ -1,4 +1,5 @@
 export const CONFIG = {
+  API_URL: 'http://localhost:3001',
   APP: {
     NAME: "Cozinha Ramos",
     SLOGAN: "Tradição e sabor que chegam até você.",
@@ -11,6 +12,7 @@ export const CONFIG = {
     CODE: 'BRL',
   },
   STORAGE: {
-    CART_KEY: '@CozinhaRamos:carrinho',
+    USER_KEY: '@CozinhaRamos:usuario',
+    CART_KEY: '@CozinhaRamos:carrinho'
   }
 } as const;
