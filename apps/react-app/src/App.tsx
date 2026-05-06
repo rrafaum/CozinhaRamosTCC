@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 
+import Login from './pages/Login';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import CardProduto from './components/CardProduto/CardProduto';
@@ -13,7 +14,18 @@ import { Toaster, toast } from 'react-hot-toast';
 
 import './App.css';
 
+interface UsuarioLogado {
+  id: string;
+  nome: string;
+  email: string;
+  token?: string;
+}
+
 export default function App() {
+  const [usuario, setUsuario] = useState<UsuarioLogado | null>(() => {
+  const salvo = localStorage.getItem('@CozinhaRamos:usuario');
+    return salvo ? JSON.parse(salvo) : null;
+  });
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [isCarrinhoAberto, setIsCarrinhoAberto] = useState(false);
   const [isCarregando, setIsCarregando] = useState(true);
@@ -30,6 +42,8 @@ export default function App() {
   });
 
   useEffect(() => {
+    if (!usuario) return;
+
     const buscarProdutos = async () => {
       try {
         setIsCarregando(true);
@@ -39,17 +53,16 @@ export default function App() {
           setProdutos(response.data);
         }
       } catch (err) {
-        console.error("Erro ao carregar produtos do banco de dados:", err);
+        console.error("Erro ao carregar produtos:", err);
         toast.error("Não foi possível carregar o cardápio.");
-        setProdutos([]);
       } finally {
         setIsCarregando(false);
       }
     };
 
     buscarProdutos();
-  }, []);
-  
+  }, [usuario]);
+
   const categorias = useMemo(() => {
     return ['Todos', ...new Set(produtos.map(p => p.categoria))];
   }, [produtos]);
@@ -68,6 +81,18 @@ export default function App() {
     localStorage.setItem(CONFIG.STORAGE.CART_KEY, JSON.stringify(carrinho));
   }, [carrinho]);
 
+  const handleSucessoLogin = (userData: UsuarioLogado) => {
+    setUsuario(userData);
+    localStorage.setItem('@CozinhaRamos:usuario', JSON.stringify(userData));
+    toast.success(`Bem-vindo, ${userData.nome}!`);
+  };
+
+  const handleSair = () => {
+    setUsuario(null);
+    localStorage.removeItem('@CozinhaRamos:usuario');
+    toast.success("Sessão encerrada!");
+  };
+
   const adicionarAoCarrinho = (produto: Produto) => {
     setCarrinho(prev => {
       const itemExiste = prev.find(item => item.id === produto.id);
@@ -79,14 +104,7 @@ export default function App() {
       return [...prev, { ...produto, quantidade: 1 }];
     });
 
-    toast.success(`${produto.nome} adicionado ao carrinho!`, {
-      position: 'bottom-center',
-      style: {
-        borderRadius: '8px',
-        background: '#435B17',
-        color: '#fff',
-      },
-    });
+    toast.success(`${produto.nome} adicionado!`);
   };
 
   const removerDoCarrinho = (id: string) => {
@@ -112,11 +130,25 @@ export default function App() {
     setIsCarrinhoAberto(false);
   };
 
+  if (!usuario) {
+    return (
+      <div className="min-h-screen bg-[#FDF8F0] py-20">
+        <Toaster />
+        <div className="text-center mb-8">
+           <h1 className="text-4xl font-bold text-[#435B17]">Cozinha Ramos</h1>
+        </div>
+        <Login onLoginSuccess={handleSucessoLogin} />
+      </div>
+    );
+  }
+
   return (
     <div className="app-wrapper">
       <Header 
         quantidadeCarrinho={totalItens} 
-        onCarrinhoAberto={() => setIsCarrinhoAberto(true)} 
+        onCarrinhoAberto={() => setIsCarrinhoAberto(true)}
+        onSair={handleSair}
+        usuarioNome={usuario?.nome} 
       />
 
       <Toaster />

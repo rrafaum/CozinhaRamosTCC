@@ -18,6 +18,7 @@
 
 .btn-close {
     @apply p-2 hover:bg-ramos-bege-escuro rounded-full transition;
+    cursor: pointer;
 }
 
 .cart-items-container {
@@ -54,6 +55,7 @@
 
 .btn-qty {
     @apply w-6 h-6 border border-ramos-marrom text-ramos-marrom rounded flex items-center justify-center;
+    cursor: pointer;
 }
 
 .qty-display {
@@ -62,6 +64,7 @@
 
 .btn-remove {
     @apply text-red-500 self-center p-2;
+    cursor: pointer;
 }
 
 .modal-footer {
@@ -74,4 +77,5 @@
 
 .btn-checkout {
     @apply w-full bg-ramos-verde text-ramos-bege py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-ramos-verde/95 transition-all shadow-lg;
+    cursor: pointer;
 }

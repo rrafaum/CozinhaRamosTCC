@@ -38,6 +38,7 @@
 
 .card-button {
     @apply w-full py-2 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all;
+    cursor: pointer;
 }
 
 .card-button-active {
