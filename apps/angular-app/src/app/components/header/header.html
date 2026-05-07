@@ -1,0 +1,30 @@
+<header class="header-wrapper">
+  <div class="header-container">
+    <div class="header-brand">
+      <div class="logo-wrapper">
+        <img src="/logo-cozinha-ramos.png" alt="Logo Cozinha Ramos" class="logo-img" />
+      </div>
+      <div class="brand-text-container">
+        <h1 class="brand-title">Cozinha Ramos</h1>
+        <span class="brand-slogan">Naturalmente saborosa!</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      @if (usuarioNome) {
+        <div class="user-section">
+          <span class="user-name">Olá, <strong>{{ usuarioNome }}</strong></span>
+          <button class="btn-logout" (click)="sair.emit()" title="Sair da conta">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
+      }
+      <button class="btn-cart" (click)="carrinhoAberto.emit()" aria-label="Abrir carrinho de compras">
+        <i class="fa-solid fa-cart-shopping" style="font-size: 1.4rem;"></i>
+        @if (quantidadeCarrinho > 0) {
+          <span class="cart-counter">{{ quantidadeCarrinho }}</span>
+        }
+      </button>
+    </div>
+  </div>
+</header>

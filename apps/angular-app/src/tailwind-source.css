@@ -1,0 +1,278 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-ramos-verde: #435B17;
+  --color-ramos-marrom: #AB5213;
+  --color-ramos-bege: #FEEED3;
+  --color-ramos-bege-escuro: #EDCD9A;
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-ramos-bege text-gray-800 font-sans antialiased;
+  }
+}
+
+/* ===== APP ===== */
+.app-wrapper {
+  @apply min-h-screen flex flex-col bg-gray-50;
+}
+.hero-banner {
+  @apply bg-ramos-verde text-ramos-bege py-10 px-4 text-center shadow-inner;
+}
+.hero-title {
+  @apply text-3xl font-bold mb-2;
+}
+.hero-subtitle {
+  @apply text-ramos-bege-escuro italic;
+}
+.main-content {
+  @apply container mx-auto p-4 max-w-5xl;
+}
+.filter-container {
+  @apply flex gap-2 overflow-x-auto pb-4 mb-6;
+  scrollbar-width: none;
+}
+.filter-container::-webkit-scrollbar {
+  display: none;
+}
+.btn-filter {
+  @apply px-6 py-2 rounded-full font-bold text-sm transition-all whitespace-nowrap border cursor-pointer;
+}
+.btn-filter-active {
+  @apply bg-ramos-marrom text-white border-ramos-marrom shadow-md;
+}
+.btn-filter-inactive {
+  @apply bg-white text-ramos-verde border-ramos-bege-escuro/30 hover:bg-ramos-bege;
+}
+.section-header {
+  @apply flex items-center justify-between mb-8 border-b border-ramos-bege-escuro/30 pb-2;
+}
+.section-title {
+  @apply text-2xl font-bold text-ramos-verde;
+}
+.delivery-badge {
+  @apply bg-ramos-marrom text-white px-3 py-1 rounded-full text-xs font-bold;
+}
+.product-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
+}
+.skeleton {
+  @apply bg-gray-200 rounded-2xl animate-pulse;
+}
+.skeleton-card {
+  @apply h-80 w-full;
+}
+.empty-state {
+  @apply col-span-3 text-center text-gray-500 py-16;
+}
+
+/* ===== HEADER ===== */
+.header-wrapper {
+  @apply bg-ramos-verde text-ramos-bege p-4 shadow-md sticky top-0 z-50;
+}
+.header-container {
+  @apply container mx-auto flex justify-between items-center;
+}
+.header-brand {
+  @apply flex items-center gap-3;
+}
+.logo-wrapper {
+  @apply bg-ramos-bege p-1 rounded-lg;
+}
+.logo-img {
+  @apply w-10 h-10 object-contain;
+}
+.brand-text-container {
+  @apply flex flex-col;
+}
+.brand-title {
+  @apply text-xl font-bold leading-none;
+}
+.brand-slogan {
+  @apply text-[10px] uppercase tracking-widest opacity-80;
+}
+.header-actions {
+  @apply flex items-center gap-6;
+}
+.user-section {
+  @apply flex items-center gap-3 border-r border-white/20 pr-4;
+}
+.user-name {
+  @apply text-sm text-white;
+}
+.btn-logout {
+  @apply text-white/80 hover:text-white transition-colors p-1 hover:bg-white/10 rounded cursor-pointer;
+}
+.btn-cart {
+  @apply relative p-2 hover:bg-white/10 rounded-full transition-colors cursor-pointer;
+}
+.cart-counter {
+  @apply absolute -top-1 -right-1 bg-ramos-marrom text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-ramos-verde;
+}
+
+/* ===== FOOTER ===== */
+.footer-wrapper {
+  @apply bg-ramos-verde text-ramos-bege mt-auto;
+}
+.footer-container {
+  @apply container mx-auto px-4 py-12 max-w-5xl;
+}
+.footer-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-ramos-bege-escuro/20 pb-8;
+}
+.footer-title {
+  @apply text-xl font-bold mb-4 text-ramos-bege-escuro;
+}
+.footer-text {
+  @apply text-sm leading-relaxed opacity-90;
+}
+.footer-tag {
+  @apply mt-4 text-xs font-semibold uppercase tracking-wider;
+}
+.footer-brand-section {
+  @apply md:text-right flex flex-col md:items-end;
+}
+.footer-slogan {
+  @apply text-sm italic opacity-90 mb-4;
+}
+.social-links {
+  @apply flex gap-3 mb-6;
+}
+.social-icon {
+  @apply p-2 rounded-full bg-ramos-marrom text-ramos-bege hover:bg-ramos-bege-escuro hover:text-ramos-verde transition-all shadow-sm;
+}
+.footer-contact {
+  @apply flex flex-col md:items-end gap-1 text-xs opacity-80;
+}
+.footer-bottom {
+  @apply mt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs opacity-70;
+}
+.tech-stack {
+  @apply flex gap-4;
+}
+.tech-badge {
+  @apply px-2 py-1 border border-ramos-bege/30 rounded;
+}
+
+/* ===== CARD PRODUTO ===== */
+.card-container {
+  @apply relative bg-white rounded-2xl shadow-sm overflow-hidden border border-ramos-bege-escuro/30 hover:shadow-md transition-shadow;
+}
+.card-indisponivel {
+  @apply opacity-60;
+}
+.card-badge {
+  @apply absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-ramos-verde text-[10px] font-bold px-2 py-1 rounded-lg shadow-sm uppercase tracking-wider border border-ramos-bege-escuro/20;
+}
+.card-image {
+  @apply w-full h-48 object-cover;
+}
+.card-body {
+  @apply p-4;
+}
+.card-header {
+  @apply flex justify-between items-start mb-2;
+}
+.card-title {
+  @apply font-semibold text-lg text-ramos-verde leading-tight;
+}
+.card-price {
+  @apply font-bold text-ramos-marrom whitespace-nowrap ml-2;
+}
+.card-description {
+  @apply text-gray-600 text-sm mb-4 line-clamp-2;
+}
+.card-button {
+  @apply w-full py-2 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer;
+}
+.card-button-active {
+  @apply bg-ramos-verde text-ramos-bege hover:bg-ramos-verde/90 active:scale-95;
+}
+.card-button-disabled {
+  @apply bg-gray-200 text-gray-500 cursor-not-allowed;
+}
+
+/* ===== CARRINHO MODAL ===== */
+.modal-overlay {
+  @apply fixed inset-0 bg-black/50 z-60 flex justify-end;
+}
+.modal-content {
+  @apply bg-ramos-bege w-full max-w-md h-full shadow-2xl flex flex-col p-6;
+}
+.modal-header {
+  @apply flex justify-between items-center mb-6;
+}
+.modal-title {
+  @apply text-2xl font-bold text-ramos-verde;
+}
+.btn-close {
+  @apply p-2 hover:bg-ramos-bege-escuro rounded-full transition cursor-pointer;
+}
+.cart-items-container {
+  @apply flex-1 overflow-y-auto space-y-4;
+}
+.cart-empty-text {
+  @apply text-center text-gray-500 mt-10;
+}
+.cart-item-card {
+  @apply flex gap-4 bg-white p-3 rounded-xl border border-ramos-bege-escuro/20;
+}
+.cart-item-image {
+  @apply w-16 h-16 rounded-lg object-cover;
+}
+.cart-item-info {
+  @apply flex-1;
+}
+.cart-item-name {
+  @apply font-bold text-ramos-verde text-sm;
+}
+.cart-item-price {
+  @apply text-ramos-marrom font-semibold text-xs;
+}
+.qty-controls {
+  @apply flex items-center gap-3 mt-2;
+}
+.btn-qty {
+  @apply w-6 h-6 border border-ramos-marrom text-ramos-marrom rounded flex items-center justify-center cursor-pointer;
+}
+.qty-display {
+  @apply text-sm font-bold;
+}
+.btn-remove {
+  @apply text-red-500 self-center p-2 cursor-pointer;
+}
+.modal-footer {
+  @apply border-t border-ramos-bege-escuro pt-6 mt-4;
+}
+.total-container {
+  @apply flex justify-between items-center mb-6 text-xl font-bold text-ramos-verde;
+}
+.btn-checkout {
+  @apply w-full bg-ramos-verde text-ramos-bege py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-ramos-verde/95 transition-all shadow-lg cursor-pointer;
+}

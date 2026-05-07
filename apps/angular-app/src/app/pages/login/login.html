@@ -1,0 +1,74 @@
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-xl border border-gray-200">
+  <div class="text-center mb-8">
+    <h2 class="text-3xl font-bold text-ramos-verde">
+      {{ isLogin ? 'Bem-vindo de volta!' : 'Criar Conta' }}
+    </h2>
+    <p class="text-gray-500 mt-2 text-sm">
+      {{ isLogin ? 'Acesse para fazer seus pedidos' : 'Cadastre-se na Cozinha Ramos' }}
+    </p>
+  </div>
+
+  <form (submit)="handleEnviar($event)" class="space-y-4">
+    @if (!isLogin) {
+      <div class="relative">
+        <i class="fa-solid fa-user absolute left-3 top-3 text-gray-400"></i>
+        <input
+          type="text"
+          placeholder="Nome completo"
+          class="w-full pl-10 pr-4 py-2 border rounded-xl focus:ring-2 focus:ring-ramos-verde outline-none"
+          [(ngModel)]="nome"
+          name="nome"
+          required
+        />
+      </div>
+    }
+
+    <div class="relative">
+      <i class="fa-solid fa-envelope absolute left-3 top-3 text-gray-400"></i>
+      <input
+        type="email"
+        placeholder="Seu e-mail"
+        class="w-full pl-10 pr-4 py-2 border rounded-xl focus:ring-2 focus:ring-ramos-verde outline-none"
+        [(ngModel)]="email"
+        name="email"
+        required
+      />
+    </div>
+
+    <div class="relative">
+      <i class="fa-solid fa-lock absolute left-3 top-3 text-gray-400"></i>
+      <input
+        type="password"
+        placeholder="Sua senha (mín. 6 caracteres)"
+        class="w-full pl-10 pr-4 py-2 border rounded-xl focus:ring-2 focus:ring-ramos-verde outline-none"
+        [(ngModel)]="senha"
+        name="senha"
+        required
+        minlength="6"
+      />
+    </div>
+
+    @if (error) {
+      <p class="text-red-500 text-xs italic">{{ error }}</p>
+    }
+
+    <button
+      type="submit"
+      [disabled]="loading"
+      class="w-full bg-ramos-verde text-white py-3 rounded-xl font-bold hover:bg-opacity-90 transition flex justify-center items-center gap-2 cursor-pointer"
+    >
+      @if (loading) {
+        <i class="fa-solid fa-spinner animate-spin"></i>
+      } @else {
+        {{ isLogin ? 'Entrar' : 'Cadastrar' }}
+      }
+    </button>
+  </form>
+
+  <button
+    (click)="isLogin = !isLogin"
+    class="w-full mt-4 text-gray-600 text-sm font-semibold hover:underline cursor-pointer"
+  >
+    {{ isLogin ? 'Não tem conta? Cadastre-se' : 'Já tem conta? Entre aqui' }}
+  </button>
+</div>
