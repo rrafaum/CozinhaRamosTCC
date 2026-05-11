@@ -1,0 +1,28 @@
+<div class="card-container" [class.card-indisponivel]="!produto.disponivel">
+  <span class="card-badge">{{ produto.categoria }}</span>
+
+  <img [src]="produto.imagem" [alt]="'Imagem do produto ' + produto.nome" class="card-image" loading="lazy" />
+
+  <div class="card-body">
+    <div class="card-header">
+      <h3 class="card-title">{{ produto.nome }}</h3>
+      <span class="card-price">{{ precoFormatado }}</span>
+    </div>
+
+    <p class="card-description">{{ produto.descricao }}</p>
+
+    <button
+      (click)="add.emit(produto)"
+      [disabled]="!produto.disponivel"
+      class="card-button"
+      [class.card-button-active]="produto.disponivel"
+      [class.card-button-disabled]="!produto.disponivel"
+    >
+      @if (produto.disponivel) {
+        <i class="fa-solid fa-plus"></i> Adicionar
+      } @else {
+        <i class="fa-solid fa-circle-info"></i> Indisponível
+      }
+    </button>
+  </div>
+</div>

@@ -1,0 +1,84 @@
+<!-- Toast notifications -->
+<div class="fixed top-4 right-4 z-[9999] flex flex-col gap-2">
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div
+      class="px-4 py-3 rounded-xl shadow-lg text-white font-semibold text-sm flex items-center gap-2 transition-all"
+      [class.bg-ramos-verde]="toast.type === 'success'"
+      [class.bg-red-500]="toast.type === 'error'"
+    >
+      {{ toast.message }}
+    </div>
+  }
+</div>
+
+@if (!usuario()) {
+  <div class="min-h-screen bg-ramos-bege py-20">
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-ramos-verde">Cozinha Ramos</h1>
+    </div>
+    <app-login (loginSuccess)="handleLoginSuccess($event)" />
+  </div>
+} @else {
+  <div class="app-wrapper">
+    <app-header
+      [quantidadeCarrinho]="totalItens()"
+      [usuarioNome]="usuario()!.nome"
+      (carrinhoAberto)="isCarrinhoAberto.set(true)"
+      (sair)="handleSair()"
+    />
+
+    <section class="hero-banner">
+      <h2 class="hero-title">Cozinha Ramos</h2>
+      <p class="hero-subtitle">Tradição e sabor que chegam até você.</p>
+    </section>
+
+    <main class="main-content">
+      <div class="filter-container">
+        @for (cat of categorias(); track cat) {
+          <button
+            (click)="categoriaAtiva.set(cat)"
+            class="btn-filter"
+            [class.btn-filter-active]="categoriaAtiva() === cat"
+            [class.btn-filter-inactive]="categoriaAtiva() !== cat"
+          >
+            {{ cat }}
+          </button>
+        }
+      </div>
+
+      <div class="section-header">
+        <h3 class="section-title">Nosso Cardápio</h3>
+        <span class="delivery-badge">ENTREGA</span>
+      </div>
+
+      <div class="product-grid">
+        @if (isCarregando()) {
+          @for (s of skeletons; track $index) {
+            <div class="skeleton skeleton-card"></div>
+          }
+        } @else if (produtosFiltrados().length > 0) {
+          @for (produto of produtosFiltrados(); track produto.id) {
+            <app-card-produto [produto]="produto" (add)="adicionarAoCarrinho($event)" />
+          }
+        } @else {
+          <div class="empty-state">
+            <p>Nenhum produto disponível no momento.</p>
+          </div>
+        }
+      </div>
+    </main>
+
+    <app-footer />
+
+    @if (isCarrinhoAberto()) {
+      <app-carrinho-modal
+        [itens]="carrinho()"
+        [usuario]="usuario()"
+        (fechar)="isCarrinhoAberto.set(false)"
+        (remover)="removerDoCarrinho($event)"
+        (atualizarQtd)="atualizarQuantidade($event)"
+        (finalizar)="limparCarrinho()"
+      />
+    }
+  </div>
+}

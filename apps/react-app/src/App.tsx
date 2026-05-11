@@ -49,7 +49,6 @@ export default function App() {
       try {
         setIsCarregando(true);
         const apiUrl = import.meta.env.VITE_API_URL;
-        // Fazemos o GET. O 404 deve sumir agora que registramos no server.ts
         const response = await axios.get<Produto[]>(`${apiUrl}/produtos`);
         
         if (response.data) {

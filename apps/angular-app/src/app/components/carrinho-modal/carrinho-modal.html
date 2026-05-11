@@ -1,0 +1,52 @@
+<div class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Seu Pedido</h2>
+      <button (click)="fechar.emit()" class="btn-close" aria-label="Fechar carrinho">
+        <i class="fa-solid fa-xmark" style="font-size: 1.4rem;"></i>
+      </button>
+    </div>
+
+    <div class="cart-items-container">
+      @if (itens.length === 0) {
+        <div class="text-center mt-10">
+          <p class="cart-empty-text mb-4">Seu carrinho está vazio.</p>
+          <button (click)="fechar.emit()" class="text-ramos-verde font-bold underline cursor-pointer hover:text-ramos-marrom transition-colors">
+            Voltar ao cardápio
+          </button>
+        </div>
+      } @else {
+        @for (item of itens; track item.id) {
+          <div class="cart-item-card">
+            <img [src]="item.imagem" class="cart-item-image" [alt]="'Imagem de ' + item.nome" />
+            <div class="cart-item-info">
+              <h4 class="cart-item-name">{{ item.nome }}</h4>
+              <p class="cart-item-price">{{ formatarPreco(item.preco) }}</p>
+              <div class="qty-controls">
+                <button (click)="handleAtualizarQtd(item, -1)" class="btn-qty">-</button>
+                <span class="qty-display">{{ item.quantidade }}</span>
+                <button (click)="handleAtualizarQtd(item, 1)" class="btn-qty">+</button>
+              </div>
+            </div>
+            <button (click)="remover.emit(item.id)" class="btn-remove">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        }
+      }
+    </div>
+
+    @if (itens.length > 0) {
+      <div class="modal-footer">
+        <div class="total-container">
+          <span>Total:</span>
+          <span>{{ formatarPreco(total) }}</span>
+        </div>
+        <button (click)="finalizarPedido()" class="btn-checkout">
+          <i class="fa-brands fa-whatsapp" style="font-size: 1.4rem;"></i>
+          Enviar para o WhatsApp
+        </button>
+      </div>
+    }
+  </div>
+</div>
